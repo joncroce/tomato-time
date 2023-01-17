@@ -19,6 +19,7 @@
 <style>
 	section {
 		display: grid;
+		flex-grow: 1;
 		grid-template-columns: 23.5% 23.5% 6% 23.5% 23.5%;
 		aspect-ratio: 600 / 240;
 		width: 100%;
