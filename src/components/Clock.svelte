@@ -1,20 +1,18 @@
 <script lang="ts">
 	import Colon from './Colon.svelte';
 	import SevenSegment from "./SevenSegment.svelte";
-	import { showLeadingZero } from '../stores/options';
+	import { showLeadingZero, twentyFourHourMode } from '../stores/options';
 	import currentDateTime from '../stores/currentDateTime';
 	
 	const now = currentDateTime();
 
-	const formatOptions: Intl.DateTimeFormatOptions = {
+	$: formatOptions = {
 		hour: '2-digit',
 		minute: '2-digit',
-		hourCycle: 'h12',
+		hourCycle: $twentyFourHourMode ? 'h24' : 'h12',
 	};
-
-	const timeFormat = new Intl.DateTimeFormat('en-US', formatOptions);
-
-	$: [hh, /* separator */, mm] = timeFormat.formatToParts($now).map(part => part.value);
+	$: timeFormat = new Intl.DateTimeFormat('en-US', formatOptions as Intl.DateTimeFormatOptions);
+	$: [hh, /* colon */, mm] = timeFormat.formatToParts($now).map(part => part.value);
 </script>
 
 <section>
