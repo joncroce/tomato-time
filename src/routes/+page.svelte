@@ -1,15 +1,17 @@
 <script lang="ts">
 	import Clock from '../components/Clock.svelte';
+	import Options from '../components/Options.svelte';
 </script>
 
 <main>
+	<Options />
 	<Clock />
 </main>
 
 <style>
 	main {
 		display: flex;
-		justify-content: center;
+		flex-direction: column;
 		align-items: stretch;
 		width: 100vw;
 		height: 100vh;

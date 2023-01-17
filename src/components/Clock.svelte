@@ -3,12 +3,13 @@
 	import SevenSegment from "./SevenSegment.svelte";
 	
 	import currentTime from '../stores/time';
+	import { showLeadingZero } from '../stores/options';
 
 	let hhmm = currentTime();
 </script>
 
 <section>
-	<SevenSegment digit={$hhmm[0] || null} /> <!-- Don't show leading 0 -->
+	<SevenSegment digit={$hhmm[0] > 0 || $showLeadingZero ? $hhmm[0] : null} />
 	<SevenSegment digit={$hhmm[1]} />
 	<Colon />
 	<SevenSegment digit={$hhmm[2]} />
