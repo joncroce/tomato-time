@@ -13,7 +13,7 @@
 	*   --3--
 	**/
 
-	const digitToSegmentMap = [
+	const digitToSegmentsMap = [
 		[1, 1, 1, 1, 1, 1, 0],
 		[0, 1, 1, 0, 0, 0, 0],
 		[1, 1, 0, 1, 1, 0, 1],
@@ -24,21 +24,20 @@
 		[1, 1, 1, 0, 0, 0, 0],
 		[1, 1, 1, 1, 1, 1, 1],
 		[1, 1, 1, 1, 0, 1, 1],
-	];
+	].map(segments => segments.map(Boolean));
 
-	const nullSegments = [0, 0, 0, 0, 0, 0, 0];	
-	const toOffOn = (n: number) => n ? 'on' : 'off';
+	const nullDigitSegments = Array.from({ length: 7 }, () => false);
 
-	$: digitSegments = digit === null ? nullSegments.map(toOffOn) : digitToSegmentMap[digit].map(toOffOn);
+	$: digitSegments = digit === null ? nullDigitSegments : digitToSegmentsMap[digit];
 	
 </script>
 
 <svg class="seven-segment" viewBox="0 0 140 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-	<path class={digitSegments[0]} d="M110 6H30L20 16L30 26H110L120 16L110 6Z"/>
-	<path class={digitSegments[1]} d="M112 28V108L122 118L132 108V28L122 18L112 28Z"/>
-	<path class={digitSegments[2]} d="M112 132V212L122 222L132 212V132L122 122L112 132Z"/>
-	<path class={digitSegments[3]} d="M110 214H30L20 224L30 234H110L120 224L110 214Z"/>
-	<path class={digitSegments[4]} d="M8 132L8 212L18 222L28 212L28 132L18 122L8 132Z"/>
-	<path class={digitSegments[5]} d="M8 28L8 108L18 118L28 108L28 28L18 18L8 28Z"/>
-	<path class={digitSegments[6]} d="M110 110H30L20 120L30 130H110L120 120L110 110Z"/>
+	<path data-segment-on={digitSegments[0]} d="M110 6H30L20 16L30 26H110L120 16L110 6Z"/>
+	<path data-segment-on={digitSegments[1]} d="M112 28V108L122 118L132 108V28L122 18L112 28Z"/>
+	<path data-segment-on={digitSegments[2]} d="M112 132V212L122 222L132 212V132L122 122L112 132Z"/>
+	<path data-segment-on={digitSegments[3]} d="M110 214H30L20 224L30 234H110L120 224L110 214Z"/>
+	<path data-segment-on={digitSegments[4]} d="M8 132L8 212L18 222L28 212L28 132L18 122L8 132Z"/>
+	<path data-segment-on={digitSegments[5]} d="M8 28L8 108L18 118L28 108L28 28L18 18L8 28Z"/>
+	<path data-segment-on={digitSegments[6]} d="M110 110H30L20 120L30 130H110L120 120L110 110Z"/>
 </svg>

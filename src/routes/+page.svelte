@@ -37,17 +37,20 @@
 		height: 100%;
 	}
 
-	:global(svg.seven-segment > path, svg.colon > circle) {
+	:global(svg.seven-segment > path) {
+		fill: oklch(50% 0.19 145 / 0.05);
+		stroke: oklch(10% 0.19 145 / 0.05);
 		stroke-width: 2;
-		stroke: oklch(10% 0.19 145);
 	}
-
-	:global(svg.seven-segment > path.on, svg.colon > circle) {
+	
+	:global(svg.seven-segment > path[data-segment-on=true]) {		
+		stroke: oklch(10% 0.19 145);
 		fill: oklch(50% 0.19 145);
 	}
 
-	:global(svg.seven-segment > path.off) {
-		fill: oklch(50% 0.19 145 / 0.05);
-		stroke: oklch(10% 0.19 145 / 0.05);
+	:global(svg.colon > circle) {
+		stroke-width: 2;		
+		stroke: oklch(10% 0.19 145);
+		fill: oklch(50% 0.19 145);
 	}
 </style>
