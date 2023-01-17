@@ -1,20 +1,9 @@
 <script lang="ts">
-  import Colon from '../components/Colon.svelte';
-	import SevenSegment from "../components/SevenSegment.svelte";
-	import time from '../stores/time';
-
-	let hhmm = time();
-
+	import Clock from '../components/Clock.svelte';
 </script>
 
 <main>
-	<section class="clock">
-		<SevenSegment digit={$hhmm[0] || null} /> <!-- Don't show leading 0 -->
-		<SevenSegment digit={$hhmm[1]} />
-		<Colon />
-		<SevenSegment digit={$hhmm[2]} />
-		<SevenSegment digit={$hhmm[3]} />
-	</section>
+	<Clock />
 </main>
 
 <style>
@@ -25,11 +14,6 @@
 		width: 100vw;
 		height: 100vh;
 		background-color: oklch(50% 0.19 35);
-	}
-
-	.clock {
-		display: grid;
-		grid-template-columns: 23.5% 23.5% 6% 23.5% 23.5%;
 	}
 
 	:global(svg.seven-segment, svg.colon) {
