@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Clock from '../components/Clock.svelte';
-	import Options from '../components/Options.svelte';
+	import OptionsMenu from '../components/OptionsMenu.svelte';
 </script>
 
 <main>
-	<Options />
+	<OptionsMenu />
 	<Clock />
 </main>
 
@@ -15,28 +15,11 @@
 		align-items: stretch;
 		width: 100vw;
 		height: 100vh;
-		background-color: oklch(50% 0.19 35);
+		background-color: var(--color-primary-dark);
 	}
 
 	:global(svg.seven-segment, svg.colon) {
 		width: 100%;
 		height: 100%;
-	}
-
-	:global(svg.seven-segment > path) {
-		fill: oklch(50% 0.19 145 / 0.05);
-		stroke: oklch(10% 0.19 145 / 0.05);
-		stroke-width: 2;
-	}
-	
-	:global(svg.seven-segment > path[data-segment-on=true]) {		
-		stroke: oklch(10% 0.19 145);
-		fill: oklch(50% 0.19 145);
-	}
-
-	:global(svg.colon > circle) {
-		stroke-width: 2;		
-		stroke: oklch(10% 0.19 145);
-		fill: oklch(50% 0.19 145);
 	}
 </style>
