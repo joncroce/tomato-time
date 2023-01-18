@@ -45,14 +45,14 @@
 	<form on:submit|preventDefault class="adjust-duration">
 		<label for="duration">
 			<span>Duration</span>
-			<input id="duration" type="number" min=1 max=90 step=1 value={duration} />
+			<input id="duration" type="number" min=1 max=90 step=1 value={duration} on:change={({ currentTarget }) => duration = currentTarget.valueAsNumber} />
 			<span>(minutes)</label>
 	</form>
 	<div class="icon-wrapper">
 		<Icon class="icon" icon="emojione-monotone:timer-clock" />
 	</div>
 	<div class="start-stop">
-		<button data-timer-active={active} on:click={() => !active ? start() : cancel()}>{!active ? 'Start' : 'Cancel'}</button>
+		<button data-timer-active={active} on:click={() => !active ? start() : cancel()}>{!active ? 'Start' : finished ? 'Reset' : 'Cancel'}</button>
 	</div>
 </section>
 {#if $showProgressBar}
