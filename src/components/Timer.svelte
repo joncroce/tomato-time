@@ -5,7 +5,7 @@
 
 	const now = currentDateTime();
 
-	let duration = 8;
+	let duration = 1;
 	let active = false;
 	let interval: NodeJS.Timer;
 	let startTime: number;
@@ -52,7 +52,7 @@
 		<Icon class="icon" icon="emojione-monotone:timer-clock" />
 	</div>
 	<div class="start-stop">
-		<button data-timer-active={active} on:click={() => !active ? start() : cancel()}>{!active ? 'Start' : finished ? 'Reset' : 'Cancel'}</button>
+		<button data-timer-active={active} data-timer-finished={finished} on:click={() => !active && !finished ? start() : cancel()}>{!active && !finished ? 'Start' : finished ? 'Reset' : 'Cancel'}</button>
 	</div>
 </section>
 {#if $showProgressBar}
@@ -123,6 +123,10 @@
 		background-color: var(--color-primary-lighter);
 	}
 
+	button[data-timer-finished=true] {
+		background-color: var(--color-tertiary-light);
+	}
+
 	.icon-wrapper {
 		display: flex;
 		font-size: 10rem;
@@ -138,7 +142,7 @@
 	}
 
 	progress::-webkit-progress-value {
-		background-color: oklch(41.14% 0.189 328.36);
+		background-color: var(--color-tertiary-dark);
 	}
 
 	/* Hide browser default number input controls */
