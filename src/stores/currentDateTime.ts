@@ -6,7 +6,7 @@ export default function() {
 
 		update();
 
-		const interval = setInterval(update, 1000);
+		const interval = setInterval(update, 500);
 
 		return () => clearInterval(interval);
 	});
