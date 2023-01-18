@@ -45,7 +45,7 @@
 	<form on:submit|preventDefault class="adjust-duration">
 		<label for="duration">
 			<span>Duration</span>
-			<input id="duration" type="number" min=1 max=90 step=1 value={duration} on:change={({ currentTarget }) => duration = currentTarget.valueAsNumber} />
+			<input id="duration" type="number" min=1 max=90 step=1 value={duration} disabled={active} on:change={({ currentTarget }) => duration = currentTarget.valueAsNumber} />
 			<span>(minutes)</label>
 	</form>
 	<div class="icon-wrapper">
