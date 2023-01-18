@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import currentDateTime from '../stores/currentDateTime';
+	import { showProgressBar } from '../stores/options';
 
 	const now = currentDateTime();
 
@@ -33,7 +34,11 @@
 		finished = true;
 	}
 
-	$: progress = !active && !finished ? 0 : finished ? 1 : ($now.valueOf() - startTime) / (finishTime - startTime);
+	$: progress = !$showProgressBar || (!active && !finished) 
+		? 0 
+		: finished 
+			? 1 
+			: ($now.valueOf() - startTime) / (finishTime - startTime);
 </script>
 
 <section class="timer">
@@ -50,7 +55,9 @@
 		<button data-timer-active={active} on:click={() => !active ? start() : cancel()}>{!active ? 'Start' : 'Cancel'}</button>
 	</div>
 </section>
+{#if $showProgressBar}
 <progress value={progress} />
+{/if}
 
 <style>
 	.timer {

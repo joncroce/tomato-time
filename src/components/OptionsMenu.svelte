@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { showLeadingZero, twentyFourHourMode, blinkingColon } from '../stores/options';
+	import { showLeadingZero, twentyFourHourMode, blinkingColon, showProgressBar } from '../stores/options';
 
 	let optionsExpanded = false;
 </script>
@@ -29,6 +29,12 @@
 			<button class="option" on:click={() => $blinkingColon = !$blinkingColon}>
 				<Icon icon={$blinkingColon ? "mdi:check-bold" : "mdi:cancel"} />
 				Blinking Colon
+			</button>
+		</li>
+		<li>
+			<button class="option" on:click={() => $showProgressBar = !$showProgressBar}>
+				<Icon icon={$showProgressBar ? "mdi:check-bold" : "mdi:cancel"} />
+				Show Progress Bar
 			</button>
 		</li>
 	</ul>
