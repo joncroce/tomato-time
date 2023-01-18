@@ -1,11 +1,13 @@
 <script lang="ts">
-	import Clock from '../components/Clock.svelte';
 	import OptionsMenu from '../components/OptionsMenu.svelte';
+	import Clock from '../components/Clock.svelte';
+	import Timer from '../components/Timer.svelte';
 </script>
 
 <main>
 	<OptionsMenu />
 	<Clock />
+	<Timer />
 </main>
 
 <style>
