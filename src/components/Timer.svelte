@@ -73,7 +73,7 @@
 	</div>
 </section>
 {#if $showProgressBar}
-<progress value={progress} />
+<progress data-timer-idle={$status === TimerStatus.IDLE} value={progress} />
 {/if}
 
 <style>
@@ -156,6 +156,10 @@
 
 	progress::-webkit-progress-bar {
 		background-color: var(--color-primary-lighter);
+	}
+
+	progress[data-timer-idle=true]::-webkit-progress-bar {
+		background-color: var(--color-primary-dark);
 	}
 
 	progress::-webkit-progress-value {
