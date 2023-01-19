@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { status, TimerStatus } from '../stores/timerStatus';
+
 	export let digit: number | null;
+	export let unlit: Boolean;
 
 	/* Segment numbering
 	*   --0--
@@ -28,11 +31,11 @@
 
 	const nullDigitSegments = Array.from({ length: 7 }, () => false);
 
-	$: digitSegments = digit === null ? nullDigitSegments : digitToSegmentsMap[digit];
+	$: digitSegments = unlit || digit === null ? nullDigitSegments : digitToSegmentsMap[digit];
 	
 </script>
 
-<svg class="seven-segment" viewBox="0 0 140 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg data-timer-alert={$status === TimerStatus.ALERT} class="seven-segment" viewBox="0 0 140 240" fill="none" xmlns="http://www.w3.org/2000/svg">
 	<path data-segment-lit={digitSegments[0]} d="M110 6H30L20 16L30 26H110L120 16L110 6Z"/>
 	<path data-segment-lit={digitSegments[1]} d="M112 28V108L122 118L132 108V28L122 18L112 28Z"/>
 	<path data-segment-lit={digitSegments[2]} d="M112 132V212L122 222L132 212V132L122 122L112 132Z"/>
@@ -54,5 +57,9 @@
 	path[data-segment-lit=true] {
 		fill-opacity: 1;
 		stroke-opacity: 1;
+	}
+
+	svg[data-timer-alert=true] > path {
+		fill: var(--color-tertiary-light);
 	}
 </style>
