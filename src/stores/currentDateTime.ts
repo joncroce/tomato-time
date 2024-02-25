@@ -1,6 +1,6 @@
 import { readable, type Subscriber } from 'svelte/store';
 
-export default function() {
+export default function () {
 	return readable(new Date(), (set: Subscriber<Date>) => {
 		const update = () => set(new Date());
 

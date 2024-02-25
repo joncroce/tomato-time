@@ -1,182 +1,183 @@
 <script lang="ts">
-	import Icon from '@iconify/svelte';
-	import currentDateTime from '../stores/currentDateTime';
-	import { status, TimerStatus } from '../stores/timerStatus';
-	import { showProgressBar } from '../stores/options';
+  import Icon from "@iconify/svelte";
+  import currentDateTime from "../stores/currentDateTime";
+  import { status, TimerStatus } from "../stores/timerStatus";
+  import { showProgressBar } from "../stores/options";
 
-	const now = currentDateTime();
+  const now = currentDateTime();
 
-	let duration = 1;
-	let interval: NodeJS.Timer;
-	let startTime: number;
-	let finishTime: number;
-  
-	function start() {
-		$status = TimerStatus.ACTIVE;
-		startTime = $now.valueOf();
-		finishTime = startTime + duration * 60_000;
-		interval = setTimeout(() => {
-			alert();
-		}, duration * 60_000);
-	}
+  let duration = 1;
+  let interval: NodeJS.Timer;
+  let startTime: number;
+  let finishTime: number;
 
-	function cancel() {
-		$status = TimerStatus.IDLE;
-		clearTimeout(interval);
-	}
+  function start() {
+    $status = TimerStatus.ACTIVE;
+    startTime = $now.valueOf();
+    finishTime = startTime + duration * 60_000;
+    interval = setTimeout(() => {
+      alert();
+    }, duration * 60_000);
+  }
 
-	function alert() {
-		$status = TimerStatus.ALERT;
-		console.log("TIMER DONE!");
-	}
+  function cancel() {
+    $status = TimerStatus.IDLE;
+    clearTimeout(interval);
+  }
 
-	$: progress = !$showProgressBar || $status === TimerStatus.IDLE 
-		? 0 
-		: $status === TimerStatus.ALERT 
-			? 1 
-			: ($now.valueOf() - startTime) / (finishTime - startTime);
+  function alert() {
+    $status = TimerStatus.ALERT;
+    console.log("TIMER DONE!");
+  }
+
+  $: progress =
+    !$showProgressBar || $status === TimerStatus.IDLE
+      ? 0
+      : $status === TimerStatus.ALERT
+        ? 1
+        : ($now.valueOf() - startTime) / (finishTime - startTime);
 </script>
 
 <section class="timer">
-	<form on:submit|preventDefault class="adjust-duration">
-		<label for="duration">
-			<span>Duration</span>
-			<input 
-				id="duration" 
-				type="number" 
-				min=1 
-				max=90 
-				step=1 
-				value={duration} 
-				disabled={$status === TimerStatus.ACTIVE} 
-				on:change={({ currentTarget }) => duration = currentTarget.valueAsNumber} 
-			/>
-			<span>(minutes)</label>
-	</form>
-	<div class="icon-wrapper">
-		<Icon class="icon" icon="emojione-monotone:timer-clock" />
-	</div>
-	<div class="start-stop">
-		<button 
-			data-timer-active={$status === TimerStatus.ACTIVE} 
-			data-timer-alert={$status === TimerStatus.ALERT} 
-			on:click={() => $status === TimerStatus.IDLE ? start() : cancel()}
-		>
-			{
-				$status === TimerStatus.IDLE 
-					? 'Start' 
-					: $status === TimerStatus.ALERT 
-						? 'Reset' 
-						: 'Cancel'
-			}
-		</button>
-	</div>
+  <form on:submit|preventDefault class="adjust-duration">
+    <label for="duration">
+      <span>Duration</span>
+      <input
+        id="duration"
+        type="number"
+        min="1"
+        max="90"
+        step="1"
+        value={duration}
+        disabled={$status === TimerStatus.ACTIVE}
+        on:change={({ currentTarget }) =>
+          (duration = currentTarget.valueAsNumber)}
+      />
+      <span>(minutes)</span></label
+    >
+  </form>
+  <div class="icon-wrapper">
+    <Icon class="icon" icon="emojione-monotone:timer-clock" />
+  </div>
+  <div class="start-stop">
+    <button
+      data-timer-active={$status === TimerStatus.ACTIVE}
+      data-timer-alert={$status === TimerStatus.ALERT}
+      on:click={() => ($status === TimerStatus.IDLE ? start() : cancel())}
+    >
+      {$status === TimerStatus.IDLE
+        ? "Start"
+        : $status === TimerStatus.ALERT
+          ? "Reset"
+          : "Cancel"}
+    </button>
+  </div>
 </section>
 {#if $showProgressBar}
-<progress data-timer-idle={$status === TimerStatus.IDLE} value={progress} />
+  <progress data-timer-idle={$status === TimerStatus.IDLE} value={progress} />
 {/if}
 
 <style>
-	.timer {
-		flex-basis: 25vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 2rem;
-	}
+  .timer {
+    flex-basis: 25vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
 
-	form {
-		display: flex;
-		flex-direction: row-reverse;
-		justify-content: center;
-		align-items: center;
-		gap: 0.25rem;
-		font-family: monospace;
-	}
+  form {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    font-family: monospace;
+  }
 
-	label {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.25rem;
-		font-size: 1.4rem;
-		font-weight: 700;
-	}
+  label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
 
-	input {
-		width: 4ch;
-		font-size: 2rem;
-		text-align: center;
-		font-family: inherit;
-		font-weight: 700;
-		border-width: 2px;
-		border-radius: 2px;
-		border-style: solid;
-		border-color: var(--color-secondary-dark);
-		background-color: var(--color-primary-lighter);
-	}
+  input {
+    width: 4ch;
+    font-size: 2rem;
+    text-align: center;
+    font-family: inherit;
+    font-weight: 700;
+    border-width: 2px;
+    border-radius: 2px;
+    border-style: solid;
+    border-color: var(--color-secondary-dark);
+    background-color: var(--color-primary-lighter);
+  }
 
-	.start-stop {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		gap: 1.5rem;
-	}
+  .start-stop {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+  }
 
-	button {
-		font-size: 2rem;
-		font-family: monospace;
-		width: 10ch;
-		border: var(--color-secondary-dark);
-		border-width: 4px;
-		border-style: solid;
-		border-radius: 1rem;
-		padding-inline: 1em;
-		background-color: var(--color-secondary-light);
-	}
+  button {
+    font-size: 2rem;
+    font-family: monospace;
+    width: 10ch;
+    border: var(--color-secondary-dark);
+    border-width: 4px;
+    border-style: solid;
+    border-radius: 1rem;
+    padding-inline: 1em;
+    background-color: var(--color-secondary-light);
+  }
 
-	button[data-timer-active=true] {
-		background-color: var(--color-primary-lighter);
-	}
+  button[data-timer-active="true"] {
+    background-color: var(--color-primary-lighter);
+  }
 
-	button[data-timer-alert=true] {
-		background-color: var(--color-tertiary-light);
-	}
+  button[data-timer-alert="true"] {
+    background-color: var(--color-tertiary-light);
+  }
 
-	.icon-wrapper {
-		display: flex;
-		font-size: 10rem;
-	}
+  .icon-wrapper {
+    display: flex;
+    font-size: 10rem;
+  }
 
-	progress { 
-		width: 100%;
-		border-radius: 0px;
-	}
+  progress {
+    width: 100%;
+    border-radius: 0px;
+  }
 
-	progress::-webkit-progress-bar {
-		background-color: var(--color-primary-lighter);
-	}
+  progress::-webkit-progress-bar {
+    background-color: var(--color-primary-lighter);
+  }
 
-	progress[data-timer-idle=true]::-webkit-progress-bar {
-		background-color: var(--color-primary-dark);
-	}
+  progress[data-timer-idle="true"]::-webkit-progress-bar {
+    background-color: var(--color-primary-dark);
+  }
 
-	progress::-webkit-progress-value {
-		background-color: var(--color-tertiary-dark);
-	}
+  progress::-webkit-progress-value {
+    background-color: var(--color-tertiary-dark);
+  }
 
-	/* Hide browser default number input controls */
+  /* Hide browser default number input controls */
 
-	input[type=number] { 
+  input[type="number"] {
     -moz-appearance: textfield;
     appearance: textfield;
-    margin: 0; 
-	}
+    margin: 0;
+  }
 
-	input[type=number]::-webkit-inner-spin-button,
-	input[type=number]::-webkit-outer-spin-button { 
-      -webkit-appearance: none; 
-      margin: 0; 
-	}
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 </style>
