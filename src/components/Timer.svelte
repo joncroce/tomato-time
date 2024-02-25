@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Icon from "@iconify/svelte";
   import { currentTimeStore as currentTime } from "../stores/currentTime.svelte";
   import { timerStore as timer } from "../stores/timer.svelte";
   import { optionsStore as options } from "../stores/options.svelte";
+  import AlarmClockIcon from "../components/icons/AlarmClockIcon.svelte";
 
   let duration = $state(1);
 
@@ -17,25 +17,27 @@
 </script>
 
 <section class="timer">
-  <form on:submit|preventDefault class="adjust-duration">
-    <label for="duration">
-      <span>Duration</span>
-      <input
-        id="duration"
-        type="number"
-        min="1"
-        max="90"
-        step="1"
-        value={duration}
-        disabled={timer.isActive}
-        on:change={({ currentTarget }) =>
-          (duration = currentTarget.valueAsNumber)}
-      />
-      <span>(minutes)</span></label
-    >
-  </form>
+  <div class="form-wrapper">
+    <form on:submit|preventDefault class="adjust-duration">
+      <label for="duration">
+        <span>Duration</span>
+        <input
+          id="duration"
+          type="number"
+          min="1"
+          max="90"
+          step="1"
+          value={duration}
+          disabled={timer.isActive}
+          on:change={({ currentTarget }) =>
+            (duration = currentTarget.valueAsNumber)}
+        />
+        <span>(minutes)</span></label
+      >
+    </form>
+  </div>
   <div class="icon-wrapper">
-    <Icon class="icon" icon="emojione-monotone:timer-clock" />
+    <AlarmClockIcon />
   </div>
   <div class="start-stop">
     <button
@@ -56,10 +58,17 @@
 <style>
   .timer {
     flex-basis: 25vh;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 10rem 1fr;
     justify-content: center;
     align-items: center;
     gap: 2rem;
+  }
+
+  .form-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: stretch;
   }
 
   form {
@@ -68,10 +77,11 @@
     justify-content: center;
     align-items: center;
     gap: 0.25rem;
-    font-family: monospace;
+    font-family: var(--font-mono);
   }
 
   label {
+    justify-self: right;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -95,15 +105,14 @@
 
   .start-stop {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 1.5rem;
   }
 
   button {
     font-size: 2rem;
-    font-family: monospace;
+    font-family: var(--font-mono);
     width: 10ch;
     border: var(--color-secondary-dark);
     border-width: 4px;

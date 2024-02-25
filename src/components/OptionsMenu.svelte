@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Icon from "@iconify/svelte";
   import { optionsStore as options, Option } from "../stores/options.svelte";
-
+  import OptionsIcon from "../components/icons/OptionsIcon.svelte";
+  import CheckboxIcon from "./icons/CheckboxIcon.svelte";
   let optionsExpanded = $state(false);
 </script>
 
@@ -12,22 +12,9 @@
       optionsExpanded = !optionsExpanded;
     }}
   >
-    <Icon width="100%" height="100%" icon="emojione-monotone:gear" />
+    <OptionsIcon width="100%" height="100%" />
   </button>
   <ul>
-    <li>
-      <button
-        class="option"
-        on:click={() => {
-          options.toggle(Option.SHOW_LEADING_ZERO);
-        }}
-      >
-        <Icon
-          icon={options.showLeadingZero ? "mdi:check-bold" : "mdi:cancel"}
-        />
-        Show Leading Zero
-      </button>
-    </li>
     <li>
       <button
         class="option"
@@ -35,9 +22,7 @@
           options.toggle(Option.TWENTY_FOUR_HOUR_MODE);
         }}
       >
-        <Icon
-          icon={options.twentyFourHourMode ? "mdi:check-bold" : "mdi:cancel"}
-        />
+        <CheckboxIcon checked={options.twentyFourHourMode} />
         24-Hour Mode
       </button>
     </li>
@@ -48,10 +33,19 @@
           options.toggle(Option.SHOW_PROGRESS_BAR);
         }}
       >
-        <Icon
-          icon={options.showProgressBar ? "mdi:check-bold" : "mdi:cancel"}
-        />
+        <CheckboxIcon checked={options.showProgressBar} />
         Show Progress Bar
+      </button>
+    </li>
+    <li>
+      <button
+        class="option"
+        on:click={() => {
+          options.toggle(Option.SHOW_LEADING_ZERO);
+        }}
+      >
+        <CheckboxIcon checked={options.showLeadingZero} />
+        Show Leading Zero
       </button>
     </li>
   </ul>
@@ -60,16 +54,21 @@
 <style>
   .options {
     position: absolute;
-    display: flex;
+    display: inline-flex;
     justify-content: flex-start;
-    align-items: stretch;
+    align-items: flex-start;
     align-self: flex-start;
     gap: 0.25rem;
-    margin-block: 1rem;
-    margin-inline: 1rem;
-    border: 2px solid var(--color-secondary-dark);
+    isolation: isolate;
+    border: 4px solid var(--color-secondary-dark);
     border-radius: 1rem;
     background-color: var(--color-primary-light);
+  }
+
+  .options:has(.open-close:hover),
+  .options[data-options-expanded="true"] {
+    border-color: var(--color-tertiary-darkest);
+    background-color: var(--color-primary-lighter);
   }
 
   ul {
@@ -77,8 +76,13 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding: 0;
+    padding: 0.25em;
     margin-block: 0;
+    gap: 0.25em;
+  }
+
+  .options[data-options-expanded="false"] {
+    justify-content: center;
   }
 
   .options[data-options-expanded="false"] > ul {
@@ -95,7 +99,7 @@
   }
 
   button:hover {
-    background-color: var(--color-primary-lighter);
+    color: var(--color-tertiary-darkest);
   }
 
   button.open-close {
@@ -110,10 +114,15 @@
   }
 
   button.option {
+    display: flex;
     justify-content: flex-start;
+    align-items: center;
     width: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     border-radius: 1rem;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    line-height: 1;
   }
 </style>

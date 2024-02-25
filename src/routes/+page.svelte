@@ -1,9 +1,9 @@
 <script lang="ts">
-  import OptionsMenu from "../components/OptionsMenu.svelte";
   import Clock from "../components/Clock.svelte";
   import Timer from "../components/Timer.svelte";
   import { onMount } from "svelte";
   import { optionsStore } from "../stores/options.svelte";
+  import AppBar from "../components/AppBar.svelte";
 
   onMount(() => {
     optionsStore.initialize();
@@ -17,7 +17,7 @@
     ></noscript
   >
   {#if optionsStore.initialized}
-    <OptionsMenu />
+    <AppBar />
     <Clock />
     <Timer />
   {/if}

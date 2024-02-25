@@ -4,10 +4,12 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  '@fontsource/ia-writer-duo':
+    specifier: ^5.0.7
+    version: 5.0.7
+
 devDependencies:
-  '@iconify/svelte':
-    specifier: ^3.1.6
-    version: 3.1.6(svelte@5.0.0-next.68)
   '@sveltejs/adapter-auto':
     specifier: ^3.1.1
     version: 3.1.1(@sveltejs/kit@2.5.1)
@@ -681,18 +683,9 @@ packages:
     dev: true
     optional: true
 
-  /@iconify/svelte@3.1.6(svelte@5.0.0-next.68):
-    resolution: {integrity: sha512-yLSrlkOx5J6xXU5GDLPBV/MdVBVEZhd36onfqSbxQobp1XBoWQbMPLNZyCAmTKCPnmzXSowGy79agl8FQ3kj6A==}
-    peerDependencies:
-      svelte: '*'
-    dependencies:
-      '@iconify/types': 2.0.0
-      svelte: 5.0.0-next.68
-    dev: true
-
-  /@iconify/types@2.0.0:
-    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
-    dev: true
+  /@fontsource/ia-writer-duo@5.0.7:
+    resolution: {integrity: sha512-m/o3IwPrl8p+hjpJrLsXLXN+PScll4z2fFKGDqyP2P2/eCo2gofb2adikDE9Kd20zk8QpePLV8BBlU0pqyeIjQ==}
+    dev: false
 
   /@jridgewell/gen-mapping@0.3.4:
     resolution: {integrity: sha512-Oud2QPM5dHviZNn4y/WhhYKSXksv+1xLEIsNrAbGcFzUN3ubqWRFT5gwPchNc5NuzILOU4tPBDTZ4VwhL8Y7cw==}
