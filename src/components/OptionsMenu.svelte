@@ -1,18 +1,16 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
-  import {
-    showLeadingZero,
-    twentyFourHourMode,
-    showProgressBar,
-  } from "../stores/options";
+  import { optionsStore as options, Option } from "../stores/options.svelte";
 
-  let optionsExpanded = false;
+  let optionsExpanded = $state(false);
 </script>
 
 <section class="options" data-options-expanded={optionsExpanded}>
   <button
     class="open-close"
-    on:click={() => (optionsExpanded = !optionsExpanded)}
+    on:click={() => {
+      optionsExpanded = !optionsExpanded;
+    }}
   >
     <Icon width="100%" height="100%" icon="emojione-monotone:gear" />
   </button>
@@ -20,27 +18,39 @@
     <li>
       <button
         class="option"
-        on:click={() => ($showLeadingZero = !$showLeadingZero)}
+        on:click={() => {
+          options.toggle(Option.SHOW_LEADING_ZERO);
+        }}
       >
-        <Icon icon={$showLeadingZero ? "mdi:check-bold" : "mdi:cancel"} />
+        <Icon
+          icon={options.showLeadingZero ? "mdi:check-bold" : "mdi:cancel"}
+        />
         Show Leading Zero
       </button>
     </li>
     <li>
       <button
         class="option"
-        on:click={() => ($twentyFourHourMode = !$twentyFourHourMode)}
+        on:click={() => {
+          options.toggle(Option.TWENTY_FOUR_HOUR_MODE);
+        }}
       >
-        <Icon icon={$twentyFourHourMode ? "mdi:check-bold" : "mdi:cancel"} />
+        <Icon
+          icon={options.twentyFourHourMode ? "mdi:check-bold" : "mdi:cancel"}
+        />
         24-Hour Mode
       </button>
     </li>
     <li>
       <button
         class="option"
-        on:click={() => ($showProgressBar = !$showProgressBar)}
+        on:click={() => {
+          options.toggle(Option.SHOW_PROGRESS_BAR);
+        }}
       >
-        <Icon icon={$showProgressBar ? "mdi:check-bold" : "mdi:cancel"} />
+        <Icon
+          icon={options.showProgressBar ? "mdi:check-bold" : "mdi:cancel"}
+        />
         Show Progress Bar
       </button>
     </li>

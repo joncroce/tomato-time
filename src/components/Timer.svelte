@@ -1,41 +1,19 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
-  import currentDateTime from "../stores/currentDateTime";
-  import { status, TimerStatus } from "../stores/timerStatus";
-  import { showProgressBar } from "../stores/options";
+  import { currentTimeStore as currentTime } from "../stores/currentTime.svelte";
+  import { timerStore as timer } from "../stores/timer.svelte";
+  import { optionsStore as options } from "../stores/options.svelte";
 
-  const now = currentDateTime();
+  let duration = $state(1);
 
-  let duration = 1;
-  let interval: NodeJS.Timer;
-  let startTime: number;
-  let finishTime: number;
-
-  function start() {
-    $status = TimerStatus.ACTIVE;
-    startTime = $now.valueOf();
-    finishTime = startTime + duration * 60_000;
-    interval = setTimeout(() => {
-      alert();
-    }, duration * 60_000);
-  }
-
-  function cancel() {
-    $status = TimerStatus.IDLE;
-    clearTimeout(interval);
-  }
-
-  function alert() {
-    $status = TimerStatus.ALERT;
-    console.log("TIMER DONE!");
-  }
-
-  $: progress =
-    !$showProgressBar || $status === TimerStatus.IDLE
+  let progress = $derived(
+    !options.showProgressBar || timer.isIdle
       ? 0
-      : $status === TimerStatus.ALERT
+      : timer.isAlert
         ? 1
-        : ($now.valueOf() - startTime) / (finishTime - startTime);
+        : (currentTime.value!.valueOf() - timer.startTime) /
+          (timer.finishTime - timer.startTime)
+  );
 </script>
 
 <section class="timer">
@@ -49,7 +27,7 @@
         max="90"
         step="1"
         value={duration}
-        disabled={$status === TimerStatus.ACTIVE}
+        disabled={timer.isActive}
         on:change={({ currentTarget }) =>
           (duration = currentTarget.valueAsNumber)}
       />
@@ -61,20 +39,18 @@
   </div>
   <div class="start-stop">
     <button
-      data-timer-active={$status === TimerStatus.ACTIVE}
-      data-timer-alert={$status === TimerStatus.ALERT}
-      on:click={() => ($status === TimerStatus.IDLE ? start() : cancel())}
+      data-timer-active={timer.isActive}
+      data-timer-alert={timer.isAlert}
+      on:click={() => {
+        timer.isIdle ? timer.start(duration * 60_000) : timer.cancel();
+      }}
     >
-      {$status === TimerStatus.IDLE
-        ? "Start"
-        : $status === TimerStatus.ALERT
-          ? "Reset"
-          : "Cancel"}
+      {timer.isIdle ? "Start" : timer.isAlert ? "Reset" : "Cancel"}
     </button>
   </div>
 </section>
-{#if $showProgressBar}
-  <progress data-timer-idle={$status === TimerStatus.IDLE} value={progress} />
+{#if options.showProgressBar}
+  <progress data-timer-idle={timer.isIdle} value={progress} />
 {/if}
 
 <style>

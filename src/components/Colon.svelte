@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { status, TimerStatus } from "../stores/timerStatus";
+  import { timerStore as timer } from "../stores/timer.svelte";
   export let unlit: Boolean;
 </script>
 
 <svg
-  data-timer-alert={$status === TimerStatus.ALERT}
+  data-timer-alert={timer.isAlert}
   data-unlit={unlit}
   class="colon"
   viewBox="0 0 40 240"

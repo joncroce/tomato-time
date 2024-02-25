@@ -1,32 +1,32 @@
 <script lang="ts">
   import Colon from "./Colon.svelte";
   import SevenSegment from "./SevenSegment.svelte";
-  import { showLeadingZero, twentyFourHourMode } from "../stores/options";
-  import currentDateTime from "../stores/currentDateTime";
-  import { status, TimerStatus } from "../stores/timerStatus";
+  import { optionsStore as options } from "../stores/options.svelte";
+  import { currentTimeStore as currentTime } from "../stores/currentTime.svelte";
+  import { timerStore as timer } from "../stores/timer.svelte";
 
-  const now = currentDateTime();
-
-  $: formatOptions = {
+  let formatOptions = $derived({
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    hourCycle: $twentyFourHourMode ? "h24" : "h12",
-  };
-  $: timeFormat = new Intl.DateTimeFormat(
-    "en-US",
-    formatOptions as Intl.DateTimeFormatOptions
+    hourCycle: options.twentyFourHourMode ? "h24" : "h12",
+  });
+  let timeFormat = $derived(
+    new Intl.DateTimeFormat(
+      "en-US",
+      formatOptions as Intl.DateTimeFormatOptions
+    )
   );
-  $: [hh /* colon */, , mm /* colon */, , ss] = timeFormat
-    .formatToParts($now)
-    .map((part) => part.value);
-  $: unlit = $status === TimerStatus.ALERT && Boolean(Number(ss) % 2);
+  let [hh /* colon */, , mm /* colon */, , ss] = $derived(
+    timeFormat.formatToParts(currentTime.value).map((part) => part.value)
+  );
+  let unlit = $derived(timer.isAlert && Boolean(Number(ss) % 2));
 </script>
 
 <section>
   <SevenSegment
     {unlit}
-    digit={Number(hh[0]) > 0 || $showLeadingZero ? Number(hh[0]) : null}
+    digit={Number(hh[0]) > 0 || options.showLeadingZero ? Number(hh[0]) : null}
   />
   <SevenSegment {unlit} digit={Number(hh[1])} />
   <Colon {unlit} />
