@@ -5,6 +5,7 @@
   import StopIcon from "./icons/StopIcon.svelte";
   import PlayIcon from "./icons/PlayIcon.svelte";
   import PauseIcon from "./icons/PauseIcon.svelte";
+  import ProgressBar from "./ProgressBar.svelte";
 
   let durationMinutesInput = $state(1);
   let durationMs = $derived(durationMinutesInput * 60_000);
@@ -85,14 +86,14 @@
     </button>
   </div>
 </section>
-<progress
-  data-show={options.showProgressBar}
-  data-timer-idle={timer.isIdle}
+<ProgressBar
   value={timer.progress}
+  show={options.showProgressBar && !timer.isIdle}
 />
 
 <style>
   .timer {
+    padding-block-end: var(--progress-bar-height);
     display: grid;
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr 1fr;
@@ -217,31 +218,6 @@
     justify-content: center;
     font-size: min(10rem, 25vw);
     grid-area: icon;
-  }
-
-  progress {
-    width: 100%;
-    border-radius: 0px;
-  }
-
-  progress[data-show="true"]::-webkit-progress-bar {
-    background-color: var(--color-primary-lighter);
-  }
-
-  progress[data-show="true"][data-timer-idle="true"]::-webkit-progress-bar {
-    background-color: var(--color-primary-dark);
-  }
-
-  progress[data-show="true"]::-webkit-progress-value {
-    background-color: var(--color-tertiary-dark);
-  }
-
-  progress[data-show="false"]::-webkit-progress-bar {
-    background-color: var(--color-primary-dark);
-  }
-
-  progress[data-show="false"]::-webkit-progress-value {
-    background-color: var(--color-primary-dark);
   }
 
   /* Hide browser default number input controls */
