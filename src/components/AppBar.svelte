@@ -9,7 +9,7 @@
   <img class="logo" src="/TomatoTimeLogo.svg" alt="Tomato Time Logo" />
 
   <a class="github-link" href="https://github.com/joncroce/tomato-time">
-    <GithubIcon width="100%" height="100%" />
+    <GithubIcon />
   </a>
 </div>
 
@@ -29,7 +29,7 @@
     position: fixed;
     top: 8px;
     right: 8px;
-    height: 3rem;
+    font-size: 3rem;
     color: var(--color-secondary-dark);
   }
 
