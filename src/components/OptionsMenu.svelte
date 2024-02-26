@@ -19,22 +19,22 @@
       <button
         class="option"
         on:click={() => {
-          options.toggle(Option.TWENTY_FOUR_HOUR_MODE);
+          options.toggle(Option.SHOW_PROGRESS_BAR);
         }}
       >
-        <CheckboxIcon checked={options.twentyFourHourMode} />
-        24-Hour Mode
+        <CheckboxIcon checked={options.showProgressBar} />
+        Show Progress Bar
       </button>
     </li>
     <li>
       <button
         class="option"
         on:click={() => {
-          options.toggle(Option.SHOW_PROGRESS_BAR);
+          options.toggle(Option.TWENTY_FOUR_HOUR_MODE);
         }}
       >
-        <CheckboxIcon checked={options.showProgressBar} />
-        Show Progress Bar
+        <CheckboxIcon checked={options.twentyFourHourMode} />
+        24-Hour Mode
       </button>
     </li>
     <li>

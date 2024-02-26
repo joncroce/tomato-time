@@ -1,19 +1,41 @@
 <script lang="ts">
-  import { currentTimeStore as currentTime } from "../stores/currentTime.svelte";
   import { timerStore as timer } from "../stores/timer.svelte";
   import { optionsStore as options } from "../stores/options.svelte";
   import AlarmClockIcon from "../components/icons/AlarmClockIcon.svelte";
+  import StopIcon from "./icons/StopIcon.svelte";
+  import PlayIcon from "./icons/PlayIcon.svelte";
+  import PauseIcon from "./icons/PauseIcon.svelte";
 
-  let duration = $state(1);
+  let durationMinutesInput = $state(1);
+  let durationMs = $derived(durationMinutesInput * 60_000);
 
-  let progress = $derived(
-    !options.showProgressBar || timer.isIdle
-      ? 0
-      : timer.isAlert
-        ? 1
-        : (currentTime.value!.valueOf() - timer.startTime) /
-          (timer.finishTime - timer.startTime)
-  );
+  let timerStatus = $derived.by(() => timer.getStatus());
+
+  let startButtonText = $derived.by(() => {
+    if (timer.isIdle || timer.isAlert) {
+      return "Start";
+    } else if (timer.isActive) {
+      return "Pause";
+    } else if (timer.isPaused) {
+      return "Resume";
+    }
+  });
+
+  function handleStartButtonClick() {
+    if (timer.isIdle || timer.isAlert) {
+      timer.start(durationMs);
+    } else if (timer.isActive) {
+      timer.pause();
+    } else if (timer.isPaused) {
+      timer.resume();
+    }
+  }
+
+  function handleStopButtonClick() {
+    if (!timer.isIdle) {
+      timer.stop();
+    }
+  }
 </script>
 
 <section class="timer">
@@ -27,10 +49,10 @@
           min="1"
           max="90"
           step="1"
-          value={duration}
-          disabled={timer.isActive}
+          value={durationMinutesInput}
+          disabled={!timer.isIdle}
           on:change={({ currentTarget }) =>
-            (duration = currentTarget.valueAsNumber)}
+            (durationMinutesInput = currentTarget.valueAsNumber)}
         /></label
       >
     </form>
@@ -40,19 +62,34 @@
   </div>
   <div class="controls">
     <button
-      data-timer-active={timer.isActive}
-      data-timer-alert={timer.isAlert}
-      on:click={() => {
-        timer.isIdle ? timer.start(duration * 60_000) : timer.cancel();
-      }}
+      data-action="start"
+      data-timer-status={timerStatus}
+      on:click={handleStartButtonClick}
     >
-      {timer.isIdle ? "Start" : timer.isAlert ? "Reset" : "Cancel"}
+      {#if timer.isActive}
+        <PauseIcon />
+      {:else}
+        <PlayIcon />
+      {/if}
+      {startButtonText}
+    </button>
+
+    <button
+      disabled={timer.isIdle}
+      data-action="stop"
+      data-timer-status={timerStatus}
+      on:click={handleStopButtonClick}
+    >
+      <StopIcon />
+      Stop
     </button>
   </div>
 </section>
-{#if options.showProgressBar}
-  <progress data-timer-idle={timer.isIdle} value={progress} />
-{/if}
+<progress
+  data-show={options.showProgressBar}
+  data-timer-idle={timer.isIdle}
+  value={timer.progress}
+/>
 
 <style>
   .timer {
@@ -79,7 +116,7 @@
     display: flex;
     justify-content: center;
     align-items: stretch;
-    padding-inline: 1rem;
+    padding-inline: 0.5rem;
 
     @media (min-width: 480px) {
       justify-content: flex-end;
@@ -125,7 +162,7 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    padding-inline: 1rem;
+    padding-inline: 0.5rem;
 
     @media (min-width: 480px) {
       align-items: flex-start;
@@ -133,23 +170,45 @@
   }
 
   button {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-family: var(--font-mono);
-    width: 8ch;
+    width: 12ch;
     border: var(--color-secondary-dark);
     border-width: 4px;
     border-style: solid;
     border-radius: 1rem;
     padding-inline: 0.5em;
-    background-color: var(--color-secondary-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25em;
   }
 
-  button[data-timer-active="true"] {
-    background-color: var(--color-primary-lighter);
+  button[data-action="start"][data-timer-status="IDLE"] {
+    background-color: var(--color-secondary-lighter);
   }
 
-  button[data-timer-alert="true"] {
+  button[data-action="start"][data-timer-status="ACTIVE"] {
+    background-color: var(--color-secondary-lighter);
+  }
+
+  button[data-action="start"][data-timer-status="PAUSED"] {
     background-color: var(--color-tertiary-light);
+  }
+
+  button[data-action="start"][data-timer-status="ALERT"] {
+    background-color: var(--color-secondary-lighter);
+  }
+
+  button[data-action="stop"] {
+    background-color: var(--color-primary-light);
+  }
+
+  button[disabled] {
+    background-color: #ccca;
+    cursor: not-allowed;
+    color: #444;
+    border-color: #333;
   }
 
   .icon-wrapper {
@@ -164,16 +223,24 @@
     border-radius: 0px;
   }
 
-  progress::-webkit-progress-bar {
+  progress[data-show="true"]::-webkit-progress-bar {
     background-color: var(--color-primary-lighter);
   }
 
-  progress[data-timer-idle="true"]::-webkit-progress-bar {
+  progress[data-show="true"][data-timer-idle="true"]::-webkit-progress-bar {
     background-color: var(--color-primary-dark);
   }
 
-  progress::-webkit-progress-value {
+  progress[data-show="true"]::-webkit-progress-value {
     background-color: var(--color-tertiary-dark);
+  }
+
+  progress[data-show="false"]::-webkit-progress-bar {
+    background-color: var(--color-primary-dark);
+  }
+
+  progress[data-show="false"]::-webkit-progress-value {
+    background-color: var(--color-primary-dark);
   }
 
   /* Hide browser default number input controls */
@@ -182,6 +249,10 @@
     -moz-appearance: textfield;
     appearance: textfield;
     margin: 0;
+  }
+
+  input[type="number"][disabled] {
+    cursor: not-allowed;
   }
 
   input[type="number"]::-webkit-inner-spin-button,
