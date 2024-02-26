@@ -7,8 +7,12 @@
   import PauseIcon from "./icons/PauseIcon.svelte";
   import ProgressBar from "./ProgressBar.svelte";
 
-  let durationMinutesInput = $state(1);
-  let durationMs = $derived(durationMinutesInput * 60_000);
+  const MIN_DURATION_MINUTES = 1;
+  const MAX_DURATION_MINUTES = 999;
+  const DEFAULT_DURATION_MINUTES = 20;
+
+  let durationMinutesInput = $state(String(DEFAULT_DURATION_MINUTES));
+  let durationMs = $derived(parseInt(durationMinutesInput) * 60_000);
 
   let timerStatus = $derived.by(() => timer.getStatus());
 
@@ -37,6 +41,35 @@
       timer.stop();
     }
   }
+
+  function allowOnlyNumberKeys(event: KeyboardEvent) {
+    if (!/^\d*/.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  function clampInputValue(input: string): string {
+    let inputAsNumber = input.length ? parseInt(input) : MIN_DURATION_MINUTES;
+    if (inputAsNumber < MIN_DURATION_MINUTES) {
+      inputAsNumber = MIN_DURATION_MINUTES;
+    } else if (inputAsNumber > MAX_DURATION_MINUTES) {
+      inputAsNumber = MAX_DURATION_MINUTES;
+    }
+
+    return String(inputAsNumber);
+  }
+
+  function handlePaste(event: ClipboardEvent) {
+    event.preventDefault();
+    const text = event.clipboardData?.getData("text") ?? "";
+    const filteredText = text.replace(/[^\d]/g, "");
+    const clampedValue = clampInputValue(filteredText);
+    durationMinutesInput = clampedValue;
+  }
+
+  function handleBlur() {
+    durationMinutesInput = clampInputValue(durationMinutesInput);
+  }
 </script>
 
 <section class="timer">
@@ -46,14 +79,17 @@
         <span>Minutes</span>
         <input
           id="duration"
-          type="number"
-          min="1"
-          max="90"
+          type="text"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          min={MIN_DURATION_MINUTES}
+          max={MAX_DURATION_MINUTES}
           step="1"
-          value={durationMinutesInput}
           disabled={!timer.isIdle}
-          on:change={({ currentTarget }) =>
-            (durationMinutesInput = currentTarget.valueAsNumber)}
+          bind:value={durationMinutesInput}
+          on:keydown={allowOnlyNumberKeys}
+          on:paste={handlePaste}
+          on:blur={handleBlur}
         /></label
       >
     </form>
