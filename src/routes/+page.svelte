@@ -10,29 +10,17 @@
   });
 </script>
 
-<main>
-  <noscript
-    ><span
-      >Please enable JavaScript and refresh the page to use Tomato Time</span
-    ></noscript
-  >
-  {#if optionsStore.initialized}
-    <AppBar />
-    <Clock />
-    <Timer />
-  {/if}
-</main>
+<noscript
+  ><span>Please enable JavaScript and refresh the page to use Tomato Time</span
+  ></noscript
+>
+{#if optionsStore.initialized}
+  <AppBar />
+  <Clock />
+  <Timer />
+{/if}
 
 <style lang="postcss">
-  main {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    width: 100lvw;
-    height: 100lvh;
-    background-color: var(--color-primary-dark);
-  }
-
   :global(svg.seven-segment, svg.colon) {
     width: 100%;
     height: 100%;

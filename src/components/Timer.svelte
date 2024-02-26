@@ -20,7 +20,7 @@
   <div class="form-wrapper">
     <form on:submit|preventDefault class="adjust-duration">
       <label for="duration">
-        <span>Duration</span>
+        <span>Minutes</span>
         <input
           id="duration"
           type="number"
@@ -31,15 +31,14 @@
           disabled={timer.isActive}
           on:change={({ currentTarget }) =>
             (duration = currentTarget.valueAsNumber)}
-        />
-        <span>(minutes)</span></label
+        /></label
       >
     </form>
   </div>
   <div class="icon-wrapper">
     <AlarmClockIcon />
   </div>
-  <div class="start-stop">
+  <div class="controls">
     <button
       data-timer-active={timer.isActive}
       data-timer-alert={timer.isAlert}
@@ -57,18 +56,34 @@
 
 <style>
   .timer {
-    flex-basis: 25vh;
     display: grid;
-    grid-template-columns: 1fr 10rem 1fr;
-    justify-content: center;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "icon controls"
+      "duration controls";
+    justify-content: space-evenly;
     align-items: center;
-    gap: 2rem;
+
+    @media (min-width: 480px) {
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr auto 1fr;
+      grid-template-areas: "duration icon controls";
+      justify-content: space-evenly;
+      align-items: center;
+    }
   }
 
   .form-wrapper {
+    grid-area: duration;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: stretch;
+    padding-inline: 1rem;
+
+    @media (min-width: 480px) {
+      justify-content: flex-end;
+    }
   }
 
   form {
@@ -103,22 +118,29 @@
     background-color: var(--color-primary-lighter);
   }
 
-  .start-stop {
+  .controls {
+    grid-area: controls;
     display: flex;
-    justify-content: flex-start;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
-    gap: 1.5rem;
+    padding-inline: 1rem;
+
+    @media (min-width: 480px) {
+      align-items: flex-start;
+    }
   }
 
   button {
     font-size: 2rem;
     font-family: var(--font-mono);
-    width: 10ch;
+    width: 8ch;
     border: var(--color-secondary-dark);
     border-width: 4px;
     border-style: solid;
     border-radius: 1rem;
-    padding-inline: 1em;
+    padding-inline: 0.5em;
     background-color: var(--color-secondary-light);
   }
 
@@ -132,7 +154,9 @@
 
   .icon-wrapper {
     display: flex;
-    font-size: 10rem;
+    justify-content: center;
+    font-size: min(10rem, 25vw);
+    grid-area: icon;
   }
 
   progress {

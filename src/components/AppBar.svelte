@@ -4,29 +4,19 @@
 </script>
 
 <div class="app-bar">
-  <div class="options-wrapper">
-    <OptionsMenu />
-  </div>
+  <OptionsMenu />
+
   <h1 class="app-name">Tomato Time</h1>
-  <nav class="social-nav">
-    <a href="https://github.com/joncroce/tomato-time">
-      <GithubIcon width="100%" height="100%" />
-    </a>
-  </nav>
+
+  <a class="github-link" href="https://github.com/joncroce/tomato-time">
+    <GithubIcon width="100%" height="100%" />
+  </a>
 </div>
 
 <style lang="postcss">
   .app-bar {
-    height: 4rem;
-    display: grid;
-    align-items: center;
-    grid-template-columns: repeat(3, 1fr);
-    flex-basis: 4rem;
     padding: 8px;
-  }
-
-  .options-wrapper {
-    align-self: self-start;
+    overflow-x: auto;
   }
 
   .app-name {
@@ -34,22 +24,19 @@
     font-size: 2.5rem;
     font-family: var(--font-mono);
     font-weight: 700;
-    margin: 0;
+    margin-block: 0;
+    margin-inline: 5rem;
   }
 
-  .social-nav {
+  .github-link {
+    position: absolute;
+    top: 8px;
+    right: 8px;
     height: 3rem;
-    display: flex;
-    align-items: stretch;
-    justify-content: flex-end;
-  }
-
-  .social-nav > a {
-    display: inline-flex;
     color: var(--color-secondary-dark);
   }
 
-  .social-nav > a:hover {
+  .github-link:hover {
     color: var(--color-tertiary-darkest);
   }
 </style>

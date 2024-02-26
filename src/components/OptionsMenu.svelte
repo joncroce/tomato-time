@@ -7,7 +7,7 @@
 
 <section class="options" data-options-expanded={optionsExpanded}>
   <button
-    class="open-close"
+    class="options-menu-toggle"
     on:click={() => {
       optionsExpanded = !optionsExpanded;
     }}
@@ -60,6 +60,7 @@
     align-self: flex-start;
     gap: 0.25rem;
     isolation: isolate;
+    z-index: 1;
     border: 4px solid var(--color-secondary-dark);
     border-radius: 1rem;
     background-color: var(--color-primary-light);
@@ -95,18 +96,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.125rem;
   }
 
   button:hover {
     color: var(--color-tertiary-darkest);
   }
 
-  button.open-close {
+  .options-menu-toggle {
     width: 3rem;
     height: 3rem;
     align-self: flex-start;
-    padding: 0.1rem;
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -118,7 +118,7 @@
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     border-radius: 1rem;
     font-family: var(--font-mono);
