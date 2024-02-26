@@ -93,6 +93,10 @@
 
 <style>
   .timer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     padding-block-end: var(--progress-bar-height);
     display: grid;
     grid-template-rows: 1fr 1fr;

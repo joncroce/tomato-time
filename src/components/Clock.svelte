@@ -24,22 +24,30 @@
 </script>
 
 <section>
-  <SevenSegment
-    {unlit}
-    digit={Number(hh[0]) > 0 || options.showLeadingZero ? Number(hh[0]) : null}
-  />
-  <SevenSegment {unlit} digit={Number(hh[1])} />
-  <Colon {unlit} />
-  <SevenSegment {unlit} digit={Number(mm[0])} />
-  <SevenSegment {unlit} digit={Number(mm[1])} />
+  <div class="clock">
+    <SevenSegment
+      {unlit}
+      digit={Number(hh[0]) > 0 || options.showLeadingZero
+        ? Number(hh[0])
+        : null}
+    />
+    <SevenSegment {unlit} digit={Number(hh[1])} />
+    <Colon {unlit} />
+    <SevenSegment {unlit} digit={Number(mm[0])} />
+    <SevenSegment {unlit} digit={Number(mm[1])} />
+  </div>
 </section>
 
 <style>
   section {
     display: grid;
-    flex-grow: 1;
+    place-items: center;
+    height: calc(100% - 4rem - 12rem);
+  }
+  .clock {
+    display: grid;
     grid-template-columns: 23.5% 23.5% 6% 23.5% 23.5%;
     aspect-ratio: 600 / 240;
-    width: 100%;
+    max-height: calc(100dvh - 4rem - 12rem);
   }
 </style>
