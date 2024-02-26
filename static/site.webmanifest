@@ -1,0 +1,41 @@
+{
+    "name": "Tomato Time",
+    "short_name": "Tomato Time",
+    "start_url": "/",
+    "scope": "/",
+    "description": "A time management app with a big clock, made with SvelteKit.",
+    "categories": [
+        "productivity",
+        "tools",
+        "time management"
+    ],
+    "lang": "en-US",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#b62000",
+    "background_color": "#b62000",
+    "display": "standalone",
+    "screenshots": [
+        {
+            "src": "/tomato-time-screenshot.png",
+            "type": "image/png",
+            "sizes": "1200x630",
+            "form_factor": "wide"
+        },
+        {
+            "src": "/tomato-time-screenshot-mobile.png",
+            "type": "image/png",
+            "sizes": "375x667"
+        }
+    ]
+}
