@@ -6,7 +6,7 @@
 <div class="app-bar">
   <OptionsMenu />
 
-  <h1 class="app-name">Tomato Time</h1>
+  <img class="logo" src="/TomatoTimeLogo.svg" alt="Tomato Time Logo" />
 
   <a class="github-link" href="https://github.com/joncroce/tomato-time">
     <GithubIcon width="100%" height="100%" />
@@ -15,21 +15,18 @@
 
 <style lang="postcss">
   .app-bar {
-    padding: 8px;
-    overflow-x: auto;
+    padding-block-start: 8px;
+    display: grid;
+    place-items: center;
   }
 
-  .app-name {
-    text-align: center;
-    font-size: 2.5rem;
-    font-family: var(--font-mono);
-    font-weight: 700;
-    margin-block: 0;
-    margin-inline: 5rem;
+  .logo {
+    max-width: calc(100vw - 10rem);
+    height: 4rem;
   }
 
   .github-link {
-    position: absolute;
+    position: fixed;
     top: 8px;
     right: 8px;
     height: 3rem;

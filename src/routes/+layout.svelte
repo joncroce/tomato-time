@@ -9,12 +9,14 @@
 <style lang="postcss">
   main {
     min-width: var(--min-width);
-    overflow: auto;
+    width: 100vw;
+    width: 100lvw;
+    height: 100vh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: 100lvw;
-    height: 100lvh;
     background-color: var(--color-primary-dark);
+    overflow: auto;
   }
 </style>

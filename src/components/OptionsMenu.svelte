@@ -53,7 +53,9 @@
 
 <style>
   .options {
-    position: absolute;
+    position: fixed;
+    top: 8px;
+    left: 8px;
     display: inline-flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -61,25 +63,26 @@
     gap: 0.25rem;
     isolation: isolate;
     z-index: 1;
+    color: var(--color-secondary-dark);
+    background-color: var(--color-primary-light);
     border: 4px solid var(--color-secondary-dark);
     border-radius: 1rem;
-    background-color: var(--color-primary-light);
   }
 
   .options:has(.open-close:hover),
   .options[data-options-expanded="true"] {
-    border-color: var(--color-tertiary-darkest);
     background-color: var(--color-primary-lighter);
+    border-color: var(--color-tertiary-darkest);
   }
 
   ul {
-    list-style: none;
+    margin-block: 0;
+    padding: 0.25em;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding: 0.25em;
-    margin-block: 0;
     gap: 0.25em;
+    list-style: none;
   }
 
   .options[data-options-expanded="false"] {
@@ -91,12 +94,13 @@
   }
 
   button {
-    background-color: transparent;
-    border: none;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.125rem;
+    color: var(--color-secondary-dark);
+    background-color: transparent;
+    border: none;
   }
 
   button:hover {
@@ -109,20 +113,21 @@
     align-self: flex-start;
     background-color: transparent;
     border: none;
-    cursor: pointer;
     border-radius: 1rem;
+    cursor: pointer;
   }
 
   button.option {
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 100%;
     font-size: 1.25rem;
     font-weight: 700;
-    border-radius: 1rem;
     font-family: var(--font-mono);
     font-weight: 400;
     line-height: 1;
+    color: var(--color-secondary-dark);
+    border-radius: 1rem;
   }
 </style>

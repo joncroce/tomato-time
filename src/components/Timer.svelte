@@ -169,19 +169,20 @@
     }
   }
 
-  button {
-    font-size: 1.5rem;
-    font-family: var(--font-mono);
+  button[data-action] {
     width: 12ch;
-    border: var(--color-secondary-dark);
-    border-width: 4px;
-    border-style: solid;
-    border-radius: 1rem;
     padding-inline: 0.5em;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.25em;
+    font-size: 1.5rem;
+    font-family: var(--font-mono);
+    color: var(--color-secondary-dark);
+    border: var(--color-secondary-dark);
+    border-width: 4px;
+    border-style: solid;
+    border-radius: 1rem;
   }
 
   button[data-action="start"][data-timer-status="IDLE"] {
