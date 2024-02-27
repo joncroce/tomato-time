@@ -103,12 +103,14 @@
       data-timer-status={timerStatus}
       on:click={handleStartButtonClick}
     >
-      {#if timer.isActive}
-        <PauseIcon />
-      {:else}
-        <PlayIcon />
-      {/if}
-      {startButtonText}
+      <span>
+        {#if timer.isActive}
+          <PauseIcon />
+        {:else}
+          <PlayIcon />
+        {/if}
+        {startButtonText}
+      </span>
     </button>
 
     <button
@@ -117,8 +119,10 @@
       data-timer-status={timerStatus}
       on:click={handleStopButtonClick}
     >
-      <StopIcon />
-      Stop
+      <span>
+        <StopIcon />
+        Stop
+      </span>
     </button>
   </div>
 </section>
@@ -211,46 +215,65 @@
   }
 
   button[data-action] {
-    width: 12ch;
-    padding-inline: 0.5em;
+    width: 10rem;
+    aspect-ratio: 4;
+    clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+    padding: 0;
+    display: grid;
+    place-items: center;
+    background-color: var(--color-secondary-dark);
+    border: 0;
+    font-size: 1.5rem;
+    font-family: var(--font-mono);
+    color: var(--color-secondary-dark);
+  }
+
+  button[data-action] > span {
+    width: calc(100% - 0.6rem);
+    height: calc(100% - 0.6rem);
+    clip-path: polygon(
+      8.5% 0,
+      91.5% 0,
+      99.5% 50%,
+      91.5% 100%,
+      8.5% 100%,
+      0.5% 50%
+    );
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.25em;
-    font-size: 1.5rem;
-    font-family: var(--font-mono);
-    color: var(--color-secondary-dark);
-    border: var(--color-secondary-dark);
-    border-width: 4px;
-    border-style: solid;
-    border-radius: 1rem;
   }
 
-  button[data-action="start"][data-timer-status="IDLE"] {
+  button[data-action="start"][data-timer-status="IDLE"] > span {
     background-color: var(--color-secondary-lighter);
   }
 
-  button[data-action="start"][data-timer-status="ACTIVE"] {
+  button[data-action="start"][data-timer-status="ACTIVE"] > span {
     background-color: var(--color-secondary-lighter);
   }
 
-  button[data-action="start"][data-timer-status="PAUSED"] {
+  button[data-action="start"][data-timer-status="PAUSED"] > span {
     background-color: var(--color-tertiary-light);
   }
 
-  button[data-action="start"][data-timer-status="ALERT"] {
+  button[data-action="start"][data-timer-status="ALERT"] > span {
     background-color: var(--color-secondary-lighter);
   }
 
-  button[data-action="stop"] {
+  button[data-action="stop"] > span {
     background-color: var(--color-primary-light);
   }
 
   button[disabled] {
+    background-color: #333;
+  }
+
+  button[disabled] > span {
     background-color: #ccca;
     cursor: not-allowed;
     color: #444;
-    border-color: #333;
+    /* border-color: #333; */
   }
 
   .icon-wrapper {
