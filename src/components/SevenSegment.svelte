@@ -2,7 +2,7 @@
   import { timerStore as timer } from "../stores/timer.svelte";
 
   export let digit: number | null;
-  export let unlit: Boolean;
+  export let unlit: Boolean = false;
 
   /* Segment numbering
    *   --0--
