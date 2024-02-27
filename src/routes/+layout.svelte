@@ -7,6 +7,10 @@
 </main>
 
 <style lang="postcss">
+  :global(svg.seven-segment, svg.colon) {
+    width: 100%;
+    height: 100%;
+  }
   main {
     min-width: var(--min-width);
     width: 100vw;
